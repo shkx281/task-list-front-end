@@ -1,23 +1,44 @@
 import React from 'react';
 import TaskList from './components/TaskList.js';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-const TASKS = [
-  {
-    id: 1,
-    title: 'Mow the lawn',
-    isComplete: false,
-  },
-  {
-    id: 2,
-    title: 'Cook Pasta',
-    isComplete: true,
-  },
-];
+// const TASKS = [
+//   {
+//     id: 1,
+//     title: 'Mow the lawn',
+//     isComplete: false,
+//   },
+//   {
+//     id: 2,
+//     title: 'Cook Pasta',
+//     isComplete: true,
+//   },
+// ];
 
 const App = () => {
-  const [tasks, setTasks] = useState(TASKS);
+  const [tasks, setTasks] = useState([]);
+  const URL = 'https://task-list-api-c17.herokuapp.com/tasks';
+
+  useEffect(() => {
+    axios
+      .get(URL)
+      .then((res) => {
+        const newTasks = res.data.map((task) => {
+          return {
+            id: task.id,
+            title: task.title,
+            isComplete: task.isComplete,
+          };
+        });
+        setTasks(newTasks);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   const flipComplete = (id) => {
     const newTasks = [];
     for (const task of tasks) {
@@ -29,6 +50,7 @@ const App = () => {
     }
     setTasks(newTasks);
   };
+
   const deleteTask = (id) => {
     const newTasks = [];
     for (const task of tasks) {
