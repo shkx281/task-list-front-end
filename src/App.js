@@ -29,7 +29,7 @@ const App = () => {
           return {
             id: task.id,
             title: task.title,
-            isComplete: task.isComplete,
+            isComplete: task.is_complete,
           };
         });
         setTasks(newTasks);
@@ -41,14 +41,28 @@ const App = () => {
 
   const flipComplete = (id) => {
     const newTasks = [];
+    let mark = '';
     for (const task of tasks) {
-      const updatedTask = { ...task };
-      if (updatedTask.id === id) {
-        updatedTask.isComplete = !updatedTask.isComplete;
+      // const updatedTask = { ...task };
+      if (task.id === id) {
+        if (task.isComplete) {
+          mark = 'mark_incomplete';
+          task.isComplete = !task.isComplete;
+        } else {
+          mark = 'mark_complete';
+          task.isComplete = !task.isComplete;
+        }
       }
-      newTasks.push(updatedTask);
+      newTasks.push(task);
     }
-    setTasks(newTasks);
+    axios
+      .patch(`${URL}/${id}/${mark}`)
+      .then(() => {
+        setTasks(newTasks);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const deleteTask = (id) => {
