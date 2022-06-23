@@ -66,13 +66,20 @@ const App = () => {
   };
 
   const deleteTask = (id) => {
-    const newTasks = [];
-    for (const task of tasks) {
-      if (task.id !== id) {
-        newTasks.push(task);
-      }
-    }
-    setTasks(newTasks);
+    axios
+      .delete(`${URL}/${id}`)
+      .then(() => {
+        const newTasks = [];
+        for (const task of tasks) {
+          if (task.id !== id) {
+            newTasks.push(task);
+          }
+        }
+        setTasks(newTasks);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="App">
