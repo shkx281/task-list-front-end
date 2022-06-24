@@ -24,6 +24,7 @@ const TaskForm = (props) => {
 
     props.addTask(formData);
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="title">Title</label>
@@ -44,3 +45,5 @@ const TaskForm = (props) => {
     </form>
   );
 };
+
+export default TaskForm;
