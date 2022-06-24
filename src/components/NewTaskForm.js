@@ -1,4 +1,6 @@
+import React from 'react';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const defaultTask = {
   title: '',
@@ -44,6 +46,10 @@ const TaskForm = (props) => {
       <input type="submit" value="Add Task" />
     </form>
   );
+};
+
+TaskForm.propTypes = {
+  addTask: PropTypes.func.isRequired,
 };
 
 export default TaskForm;

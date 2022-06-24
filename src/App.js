@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import TaskForm from './components/NewTaskForm.js';
 
-
 // const TASKS = [
 //   {
 //     id: 1,
@@ -40,7 +39,7 @@ const App = () => {
         console.log(err);
       });
   };
-  
+
   useEffect(getTasks, []);
 
   const flipComplete = (id) => {
@@ -84,16 +83,17 @@ const App = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
 
   const addTask = (taskInfo) => {
     axios
       .post(URL, taskInfo)
-      .then((response) => {
-        getTasks()
+      .then(() => {
+        getTasks();
       })
-      .catch((error)=> {
+      .catch((error) => {
         console.log(error);
-      })
+      });
   };
 
   return (
@@ -108,7 +108,7 @@ const App = () => {
             completeCallback={flipComplete}
             deleteCallback={deleteTask}
           />
-          <NewTaskForm addTask={addTask}></NewTaskForm>
+          <TaskForm addTask={addTask} />
         </div>
       </main>
     </div>
